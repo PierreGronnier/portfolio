@@ -1,0 +1,124 @@
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 0 2rem;
+}
+
+/* Distance des tags : Ajustée avec max-width */
+.tags-layer {
+  position: absolute;
+  width: 100%;
+  max-width: 1400px;
+  height: 80%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.floating-tag {
+  position: absolute;
+  padding: 7px 15px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  animation: tagFloat 6s ease-in-out infinite;
+  opacity: 0.6;
+}
+
+.hero-content {
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+  max-width: 1100px;
+  width: 100%;
+  z-index: 10;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-name {
+  font-family: "Orbitron", sans-serif;
+  font-weight: 900;
+  font-size: 3.8rem;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+.hero-name span {
+  background: linear-gradient(135deg, var(--accent), #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-desc {
+  font-size: 1.1rem;
+  max-width: 500px;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* --- IMAGE STACK --- */
+.hero-image-stack {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  flex-shrink: 0;
+}
+
+.img-container {
+  position: absolute;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-navbar);
+  transition:
+    transform 0.4s ease,
+    opacity 0.3s ease,
+    filter 0.3s ease;
+}
+
+.portrait-box {
+  width: 320px;
+  height: 380px;
+  z-index: 2;
+  top: 0;
+  left: 0;
+}
+
+.raccoon-box {
+  width: 220px;
+  height: 220px;
+  z-index: 1;
+  bottom: 0;
+  right: 0;
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+.hero-image-stack:hover .raccoon-box {
+  transform: translate(-20px, -20px);
+  opacity: 1;
+  filter: grayscale(0);
+}
+
+.img-label {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: var(--accent);
+  color: white;
+  padding: 4px 10px;
+  font-size: 0.6rem;
+  border-radius: 4px;
+  font-family: "Orbitron";
+}

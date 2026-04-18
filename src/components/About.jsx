@@ -18,7 +18,7 @@ const timeline = [
   },
   {
     year: "Internship",
-    label: "CompuCraft — Web Developer Intern",
+    label: "CompuCraft — Frontend Developer Intern",
     detail:
       "Built a full invoice-generation website for this association from the ground up. First real taste of shipping something people actually use.",
     icon: Briefcase,
@@ -32,7 +32,7 @@ const timeline = [
   },
   {
     year: "Internship",
-    label: "Codalem — Frontend Developer Intern",
+    label: "Codalem — Fullstack Developer Intern",
     detail:
       "Worked on components for their internal tooling. Good experience navigating an existing codebase, understanding constraints, and delivering work inside a real product.",
     icon: Briefcase,

@@ -20,7 +20,7 @@ const timeline = [
     year: "Internship",
     label: "CompuCraft — Frontend Developer Intern",
     detail:
-      "Built a full invoice-generation website for this association from the ground up. First real taste of shipping something people actually use.",
+      "Built the front-enb of a invoice-generation website for this association from the ground up. First real taste of shipping something people actually use.",
     icon: Briefcase,
   },
   {

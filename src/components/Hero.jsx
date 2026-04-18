@@ -1,18 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
+import { MapPin } from "lucide-react";
 import "../styles/hero.css";
 import raccoonImg from "../assets/raccoon.png";
 import portraitImg from "../assets/portrait.jpg";
 
+const CV_PLACEHOLDER = "/cv-pierre-gronnier.pdf";
+
 const Hero = () => {
   const techTags = [
-    { name: "HTML", top: "5%", left: "15%" },
-    { name: "CSS", top: "15%", right: "10%" },
-    { name: "REACT", bottom: "25%", left: "5%" },
-    { name: "NODE.JS", bottom: "10%", right: "15%" },
-    { name: "PRISMA", top: "45%", right: "-5%" },
-    { name: "EXPRESS", top: "50%", left: "-5%" },
-    { name: "JS", bottom: "5%", left: "30%" },
+    { name: "HTML", top: "8%", left: "8%" },
+    { name: "CSS", top: "18%", right: "6%" },
+    { name: "REACT", bottom: "5%", left: "3%" },
+    { name: "NODE.JS", bottom: "12%", right: "8%" },
+    { name: "PRISMA", top: "48%", right: "-2%" },
+    { name: "EXPRESS", top: "52%", left: "-2%" },
+    { name: "JS", bottom: "8%", left: "35%" },
+    { name: "WORDPRESS", bottom: "8%", left: "60%" },
+    { name: "GIT", top: "12%", left: "60%" },
   ];
+
+  const [flipped, setFlipped] = useState(false);
+
+  const handleStackClick = () => setFlipped((f) => !f);
+
+  const handleFrontAction = (e) => {
+    e.stopPropagation();
+    const link = document.createElement("a");
+    link.href = CV_PLACEHOLDER;
+    link.download = "CV_Pierre_Gronnier.pdf";
+    link.click();
+  };
+
+  const handleBackAction = (e) => {
+    e.stopPropagation();
+    window.open(
+      "https://github.com/PierreGronnier",
+      "_blank",
+      "noopener noreferrer",
+    );
+  };
 
   return (
     <section id="hero" className="hero">
@@ -36,55 +62,48 @@ const Hero = () => {
 
       <div className="hero-content tracking-in-expand">
         <div className="hero-text">
-          <p
-            style={{
-              fontFamily: "Orbitron",
-              color: "var(--accent)",
-              fontWeight: "bold",
-              marginBottom: "10px",
-              fontSize: "0.8rem",
-              letterSpacing: "2px",
-            }}
-          >
-            FRENCH CREATIVE DEVELOPER
-          </p>
+          <p className="hero-eyebrow">FULLSTACK DEVELOPER</p>
           <h1 className="hero-name">
-            Bonjour, I'm <br />
-            <span>Pierre Gronnier</span>
+            Bonjour, I'm <br /> <span>Pierre Gronnier</span>
           </h1>
           <p className="hero-desc">
-            Building digital experiences with elegance and modern full-stack
-            technologies.
+            I build web applications, from database to interface, to meet my
+            clients needs.
           </p>
-          <div
-            style={{
-              marginTop: "1rem",
-              fontFamily: "Orbitron",
-              fontSize: "0.8rem",
-              color: "var(--text-secondary)",
-            }}
-          >
-            📍 BASED IN FRANCE
+
+          <div className="hero-location">
+            <MapPin size={14} strokeWidth={2.5} /> BASED IN FRANCE
           </div>
+
+          <a
+            href={CV_PLACEHOLDER}
+            download="CV_Pierre_Gronnier.pdf"
+            className="cv-btn"
+          >
+            Download CV
+          </a>
         </div>
 
-        <div className="hero-image-stack">
+        <div
+          className={`hero-image-stack ${flipped ? "flipped" : ""}`}
+          onClick={handleStackClick}
+        >
           <div className="img-container portrait-box">
-            <img
-              src={portraitImg}
-              alt="Pierre Portrait"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
-            <span className="img-label">HUMAN_ENTITY</span>
+            <span className="img-label">PROFILE_PICTURE</span>
+            <img src={portraitImg} alt="Pierre Portrait" />
+            <button className="face-action" onClick={handleFrontAction}>
+              Download CV
+            </button>
           </div>
-
           <div className="img-container raccoon-box">
-            <img
-              src={raccoonImg}
-              alt="Github Avatar"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
             <span className="img-label">GITHUB_AVATAR</span>
+            <img src={raccoonImg} alt="Github Avatar" />
+            <button
+              className="face-action github-action"
+              onClick={handleBackAction}
+            >
+              View GitHub
+            </button>
           </div>
         </div>
       </div>

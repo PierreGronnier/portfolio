@@ -1,0 +1,515 @@
+.projects {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8rem 2rem 6rem;
+  position: relative;
+}
+
+.projects-header {
+  text-align: center;
+  margin-bottom: 4.5rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.projects-header--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.projects-eyebrow {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+}
+
+.projects-title {
+  font-family: "Orbitron", sans-serif;
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.projects-title span {
+  background: linear-gradient(135deg, var(--accent), #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.projects-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.project-card {
+  position: relative;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2rem;
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.55s ease,
+    transform 0.55s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.project-card--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-card:hover {
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.14),
+    0 0 0 1px color-mix(in srgb, var(--project-accent) 30%, transparent),
+    0 0 30px -8px color-mix(in srgb, var(--project-accent) 25%, transparent);
+  border-color: color-mix(
+    in srgb,
+    var(--project-accent) 50%,
+    var(--border) 50%
+  );
+  transform: translateY(-5px);
+}
+
+.project-card--wip {
+  border-style: dashed;
+}
+
+.project-card__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  transition: opacity 0.4s ease;
+  opacity: 0.6;
+}
+
+.project-card:hover .project-card__glow {
+  opacity: 1;
+}
+
+.project-screenshot {
+  position: relative;
+  width: calc(100% + 4rem);
+  margin: -2rem -2rem 1.5rem -2rem;
+  height: 200px;
+  border-bottom: 1px solid var(--border);
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+}
+
+.project-screenshot__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.5s ease;
+  display: block;
+}
+
+.project-card:hover .project-screenshot__img {
+  transform: scale(1.04);
+}
+
+.project-screenshot__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.project-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+}
+
+.project-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.project-index {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.project-category {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.project-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.55rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.project-badge--live {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.project-badge--wip {
+  background: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.project-name {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.55rem;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+  transition:
+    text-shadow 0.3s ease,
+    letter-spacing 0.3s ease;
+  display: inline-block;
+}
+
+.project-card:hover .project-name {
+  text-shadow:
+    0 0 20px color-mix(in srgb, var(--project-accent) 60%, transparent),
+    0 0 40px color-mix(in srgb, var(--project-accent) 30%, transparent);
+  letter-spacing: 0.02em;
+}
+
+.project-tagline {
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.project-description-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+  flex: 1;
+}
+
+.project-description {
+  font-size: 0.9rem;
+  line-height: 1.72;
+  color: var(--text-primary);
+  opacity: 0.75;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+}
+
+.project-tag {
+  padding: 3px 11px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  transition: var(--transition);
+  cursor: default;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.project-tag:hover {
+  background: color-mix(
+    in srgb,
+    var(--tag-accent, var(--accent)) 15%,
+    transparent
+  );
+  border-color: var(--tag-accent, var(--accent));
+  color: var(--tag-accent, var(--accent));
+}
+
+.project-tag--more {
+  background: color-mix(
+    in srgb,
+    var(--tag-accent, var(--accent)) 10%,
+    transparent
+  );
+  border-color: color-mix(
+    in srgb,
+    var(--tag-accent, var(--accent)) 35%,
+    transparent
+  );
+  color: var(--tag-accent, var(--accent));
+  font-family: "Orbitron", sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.5px;
+  cursor: default;
+}
+
+.project-tag-more-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.tags-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  width: max-content;
+  max-width: 220px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+  z-index: 200;
+}
+
+.tags-tooltip__item {
+  padding: 2px 9px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.tags-tooltip__arrow {
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 8px;
+  height: 8px;
+  background: var(--bg-elevated);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.project-actions {
+  display: flex;
+  gap: 0.7rem;
+  margin-top: auto;
+}
+
+.project-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: none;
+}
+
+.project-btn--ghost {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.project-btn--ghost:hover {
+  border-color: var(--project-accent);
+  color: var(--project-accent);
+  background: color-mix(in srgb, var(--project-accent) 8%, transparent);
+}
+
+.project-btn--solid {
+  color: white;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.project-btn--solid:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px
+    color-mix(in srgb, var(--project-accent) 40%, transparent);
+  filter: brightness(1.1);
+}
+
+.project-btn--disabled {
+  background: var(--bg-elevated);
+  border: 1px dashed var(--border);
+  color: var(--text-secondary);
+  opacity: 0.5;
+  cursor: not-allowed;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.project-desc-toggle {
+  display: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .projects-title {
+    font-size: 2.4rem;
+  }
+
+  .project-screenshot {
+    height: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .projects {
+    padding: 6rem 1.2rem 4rem;
+  }
+
+  .projects-title {
+    font-size: 2rem;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .project-card {
+    padding: 1.5rem;
+  }
+
+  .project-name {
+    font-size: 1.3rem;
+  }
+
+  .project-screenshot {
+    width: calc(100% + 3rem);
+    margin: -1.5rem -1.5rem 1.2rem -1.5rem;
+    height: 160px;
+  }
+
+  .project-description {
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 480px) {
+  .projects {
+    padding: 5rem 1rem 3rem;
+  }
+
+  .projects-title {
+    font-size: 1.7rem;
+  }
+
+  .projects-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .project-card {
+    padding: 1.2rem;
+  }
+
+  .project-screenshot {
+    width: calc(100% + 2.4rem);
+    margin: -1.2rem -1.2rem 1rem -1.2rem;
+    height: 140px;
+  }
+
+  .project-name {
+    font-size: 1.2rem;
+  }
+
+  .project-description {
+    font-size: 0.85rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .project-description--expanded {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+  }
+
+  .project-desc-toggle {
+    display: inline-block;
+    margin-top: 0.4rem;
+    font-size: 0.75rem;
+    font-family: "Orbitron", sans-serif;
+    color: var(--accent);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+  }
+
+  .project-actions {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .project-btn {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.9rem;
+  }
+}

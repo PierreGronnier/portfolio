@@ -4,14 +4,14 @@ import "../styles/about.css";
 
 const skills = {
   Frontend: ["React", "JavaScript", "HTML", "CSS"],
-  Backend: ["Node.js", "Express", "Prisma", "PostgreSQL"],
+  Backend: ["Node.js", "Express", "EJS", "Prisma", "PostgreSQL"],
   Tools: ["Git", "Vite", "REST APIs", "WordPress"],
 };
 
 const timeline = [
   {
-    year: "2020",
-    label: "DUT Informatique",
+    year: "2020-2022",
+    label: "DUT Informatique — UPJV, Amiens",
     detail:
       "Two-year technical degree in Computer Science. In the second year I picked the web specialization and realized pretty fast that building things for the browser was what I wanted to do.",
     icon: GraduationCap,
@@ -24,8 +24,8 @@ const timeline = [
     icon: Briefcase,
   },
   {
-    year: "2022",
-    label: "Licence Pro STS — Réseaux & Télécommunications",
+    year: "2022-2023",
+    label: "Licence Pro STS — Réseaux & Télécommunications — UPJV, Amiens",
     detail:
       "Bachelor's degree (Bac+3) in Science, Technology and Health, majoring in Networks, IT and Telecommunications. Broadened my understanding of software architecture and infrastructure.",
     icon: GraduationCap,

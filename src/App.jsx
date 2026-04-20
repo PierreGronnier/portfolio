@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
+import Projects from "./components/Projects";
 import "./global.css";
 
 const Loader = () => {
@@ -10,7 +11,7 @@ const Loader = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => (prev < 100 ? prev + 1 : 100));
-    }, 20);
+    }, 30);
     return () => clearInterval(interval);
   }, []);
 
@@ -35,7 +36,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2500);
+    const timer = setTimeout(() => setLoading(false), 3500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -48,6 +49,7 @@ function App() {
           <Navbar visible={true} />
           <Hero />
           <About />
+          <Projects />
         </>
       )}
     </>

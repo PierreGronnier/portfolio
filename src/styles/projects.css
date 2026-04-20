@@ -296,10 +296,6 @@
 }
 
 .tags-tooltip {
-  position: absolute;
-  bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
   background: var(--bg-elevated);
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -310,7 +306,6 @@
   width: max-content;
   max-width: 220px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-  pointer-events: none;
   z-index: 200;
 }
 
@@ -402,7 +397,6 @@
   display: none;
 }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
   .projects-title {
     font-size: 2.4rem;

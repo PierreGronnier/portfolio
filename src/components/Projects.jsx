@@ -1,4 +1,6 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
+import { createPortal } from "react-dom";
+import { useInView } from "react-intersection-observer";
 import { ExternalLink, Clock } from "lucide-react";
 import "../styles/projects.css";
 import nidusImg from "../assets/nidus.png";
@@ -145,40 +147,79 @@ const projects = [
   },
 ];
 
-const MAX_TAGS = 5;
+const MAX_TAGS = window.matchMedia("(max-width: 768px)").matches ? 3 : 5;
 
-const useIntersectionObserver = (options = {}) => {
-  const ref = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+const TagTooltip = ({
+  tags,
+  accent,
+  anchorRef,
+  visible,
+  onMouseEnter,
+  onMouseLeave,
+}) => {
+  const [coords, setCoords] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          if (options.triggerOnce) observer.disconnect();
-        } else if (!options.triggerOnce) {
-          setIsVisible(false);
-        }
-      },
-      { threshold: options.threshold || 0.15, ...options },
-    );
+    if (!visible || !anchorRef.current) return;
+    const rect = anchorRef.current.getBoundingClientRect();
+    setCoords({
+      top: rect.top,
+      left: rect.left + rect.width / 2,
+    });
+  }, [visible, anchorRef]);
 
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
+  if (!visible) return null;
 
-  return [ref, isVisible];
+  return createPortal(
+    <div
+      className="tags-tooltip"
+      style={{
+        position: "fixed",
+        top: coords.top,
+        left: coords.left,
+        transform: "translateX(-50%) translateY(calc(-100% - 10px))",
+        "--tag-accent": accent,
+      }}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      {tags.map((tag) => (
+        <span
+          key={tag}
+          className="tags-tooltip__item"
+          style={{ "--tag-accent": accent }}
+        >
+          {tag}
+        </span>
+      ))}
+      <span className="tags-tooltip__arrow" />
+    </div>,
+    document.body,
+  );
 };
 
 const TagList = ({ tags, accent }) => {
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const visible = tags.slice(0, MAX_TAGS);
-  const hidden = tags.slice(MAX_TAGS);
+  const moreRef = useRef(null);
+  const closeTimeoutRef = useRef(null);
+
+  const handleMouseEnter = () => {
+    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    setTooltipOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    closeTimeoutRef.current = setTimeout(() => {
+      setTooltipOpen(false);
+    }, 150);
+  };
+
+  const visibleTags = tags.slice(0, MAX_TAGS);
+  const hiddenTags = tags.slice(MAX_TAGS);
 
   return (
     <div className="project-tags">
-      {visible.map((tag) => (
+      {visibleTags.map((tag) => (
         <span
           key={tag}
           className="project-tag"
@@ -187,27 +228,26 @@ const TagList = ({ tags, accent }) => {
           {tag}
         </span>
       ))}
-      {hidden.length > 0 && (
-        <div className="project-tag-more-wrapper">
+      {hiddenTags.length > 0 && (
+        <>
           <span
+            ref={moreRef}
             className="project-tag project-tag--more"
             style={{ "--tag-accent": accent }}
-            onMouseEnter={() => setTooltipOpen(true)}
-            onMouseLeave={() => setTooltipOpen(false)}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
           >
-            +{hidden.length}
+            +{hiddenTags.length}
           </span>
-          {tooltipOpen && (
-            <div className="tags-tooltip" style={{ "--tag-accent": accent }}>
-              {hidden.map((tag) => (
-                <span key={tag} className="tags-tooltip__item">
-                  {tag}
-                </span>
-              ))}
-              <span className="tags-tooltip__arrow" />
-            </div>
-          )}
-        </div>
+          <TagTooltip
+            tags={hiddenTags}
+            accent={accent}
+            anchorRef={moreRef}
+            visible={tooltipOpen}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          />
+        </>
       )}
     </div>
   );
@@ -216,26 +256,32 @@ const TagList = ({ tags, accent }) => {
 const ExpandableDescription = ({ text }) => {
   const [expanded, setExpanded] = useState(false);
   const [isClamped, setIsClamped] = useState(false);
-  const ref = useRef(null);
+  const pRef = useRef(null);
+
+  const checkClamped = useCallback(() => {
+    const el = pRef.current;
+    if (!el) return;
+    el.style.webkitLineClamp = "unset";
+    el.style.overflow = "visible";
+    const fullHeight = el.scrollHeight;
+    el.style.webkitLineClamp = "";
+    el.style.overflow = "";
+    const clampedHeight = el.clientHeight;
+    setIsClamped(fullHeight > clampedHeight + 2);
+  }, []);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const check = () => {
-      setIsClamped(el.scrollHeight > el.clientHeight + 1);
-    };
-
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, [text]);
+    checkClamped();
+    const observer = new ResizeObserver(checkClamped);
+    if (pRef.current) observer.observe(pRef.current);
+    return () => observer.disconnect();
+  }, [checkClamped]);
 
   return (
     <div className="project-description-wrapper">
       <p
-        ref={ref}
-        className={`project-description ${expanded ? "project-description--expanded" : ""}`}
+        ref={pRef}
+        className={`project-description${expanded ? " project-description--expanded" : ""}`}
       >
         {text}
       </p>
@@ -255,15 +301,15 @@ const ExpandableDescription = ({ text }) => {
 };
 
 const ProjectCard = ({ project, index }) => {
-  const [ref, isVisible] = useIntersectionObserver({
-    threshold: 0.1,
+  const { ref, inView } = useInView({
+    threshold: 0.2,
     triggerOnce: false,
   });
 
   return (
     <div
       ref={ref}
-      className={`project-card ${isVisible ? "project-card--visible" : ""} ${project.status === "wip" ? "project-card--wip" : ""}`}
+      className={`project-card${inView ? " project-card--visible" : ""}${project.status === "wip" ? " project-card--wip" : ""}`}
       style={{
         transitionDelay: `${(index % 2) * 120}ms`,
         "--project-accent": project.accent,
@@ -312,6 +358,7 @@ const ProjectCard = ({ project, index }) => {
         {project.name}
       </h3>
       <p className="project-tagline">{project.tagline}</p>
+
       <ExpandableDescription text={project.description} />
 
       <TagList tags={project.tags} accent={project.accent} />
@@ -354,7 +401,7 @@ const ProjectCard = ({ project, index }) => {
 };
 
 const Projects = () => {
-  const [headerRef, headerVisible] = useIntersectionObserver({
+  const { ref: headerRef, inView: headerVisible } = useInView({
     threshold: 0.2,
     triggerOnce: true,
   });
@@ -363,7 +410,7 @@ const Projects = () => {
     <section id="projects" className="projects">
       <div
         ref={headerRef}
-        className={`projects-header ${headerVisible ? "projects-header--visible" : ""}`}
+        className={`projects-header${headerVisible ? " projects-header--visible" : ""}`}
       >
         <p className="projects-eyebrow">WHAT I BUILT</p>
         <h2 className="projects-title">

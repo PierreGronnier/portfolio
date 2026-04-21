@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import Projects from "./components/Projects";
+import Contact from "./components/Contact";
 import "./global.css";
 
 const Loader = () => {
@@ -46,10 +47,16 @@ function App() {
         <Loader />
       ) : (
         <>
+          <div className="orbs-layer" aria-hidden="true">
+            <div className="orb orb--1" />
+            <div className="orb orb--2" />
+            <div className="orb orb--3" />
+          </div>
           <Navbar visible={true} />
           <Hero />
           <About />
           <Projects />
+          <Contact />
         </>
       )}
     </>

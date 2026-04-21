@@ -8,15 +8,15 @@ const CV_PLACEHOLDER = "/cv-pierre-gronnier.pdf";
 
 const Hero = () => {
   const techTags = [
-    { name: "HTML", top: "8%", left: "8%" },
+    { name: "HTML", top: "18%", left: "8%" },
     { name: "CSS", top: "18%", right: "6%" },
     { name: "REACT", bottom: "5%", left: "3%" },
     { name: "NODE.JS", bottom: "12%", right: "8%" },
     { name: "PRISMA", top: "48%", right: "-2%" },
-    { name: "EXPRESS", top: "52%", left: "-2%" },
+    { name: "EXPRESS", top: "52%", left: "-5%" },
     { name: "JS", bottom: "8%", left: "35%" },
     { name: "WORDPRESS", bottom: "8%", left: "60%" },
-    { name: "GIT", top: "12%", left: "60%" },
+    { name: "GIT", top: "15%", left: "60%" },
   ];
 
   const [flipped, setFlipped] = useState(false);

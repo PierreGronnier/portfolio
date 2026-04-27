@@ -5,7 +5,7 @@ import MaltIcon from "../assets/Malt_logo.svg";
 import "../styles/contact.css";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mdayladv";
-const EMAIL = "pierre.gronnier@email.com";
+const EMAIL = "pierre.gronnier@gmail.com";
 
 const GithubIcon = ({ size = 20 }) => (
   <svg
